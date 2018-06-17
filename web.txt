@@ -1,0 +1,158 @@
+网站性能优化的34条黄金法则
+1.尽量减少HTTP请求次数
+通过减少页面中的元素可以减少 HTTP请求的次数，这是提高网页速度的关键步骤。
+
+2.减少DOM元素数量
+大量的DOM元素的存在意味着页面中有可以不用移除内容只需要替换元素标签就可以精简的部分。
+
+3.把样式表置于顶部
+最好的方案就是按照HTML规范在文档<head />内加载你的样式表。
+
+4.使用外部JavaScript和CSS
+在实际应用中使用外部文件可以提高页面速度，因为JavaScript和CSS文件都能在浏览器中产生缓存。
+
+5.把脚本置于页面底部
+脚本带来的问题就是它阻止了页面的平行下载。HTTP/1.1 规范建议，浏览器每个主机名的并行下载内容不超过两个。如果你的图片放在多个主机名上，你可以在每个并行下载中同时下载2个以上的文件。但是当下载脚本 时，浏览器就不会同时下载其它文件了，即便是主机名不相同。
+
+6.用<link>代替@import
+CSS应该放置在顶端以利于有序加载呈现。
+
+cookie,sessionStorage,localStorage的区别及应用场景
+共同点：都是保存在浏览器端，且同源的。
+区别：
+cookie数据始终在同源的http请求中携带（即使不需要），即cookie在浏览器和服务器间来回传递。而sessionStorage和localStorage不会自动把数据发给服务器，仅在本地保存。cookie数据还有路径（path）的概念，可以限制cookie只属于某个路径下。
+存储大小限制也不同，cookie数据不能超过4k，同时因为每次http请求都会携带cookie，所以cookie只适合保存很小的数据，如会话标识。sessionStorage和localStorage 虽然也有存储大小的限制，但比cookie大得多，可以达到5M或更大。
+数据有效期不同，sessionStorage：仅在当前浏览器窗口关闭前有效，自然也就不可能持久保持；localStorage：始终有效，窗口或浏览器关闭也一直保存，因此用作持久数据；cookie只在设置的cookie过期时间之前一直有效，即使窗口或浏览器关闭。
+作用域不同，sessionStorage不在不同的浏览器窗口中共享，即使是同一个页面；localStorage 在所有同源窗口中都是共享的；cookie也是在所有同源窗口中都是共享的。
+Web Storage 支持事件通知机制，可以将数据更新的通知发送给监听者
+Web Storage 的 api 接口使用更方便。
+
+position的absolute与fixed共同点与不同点
+
+
+1.absolute和fixed的相同点，都会脱离文档流
+
+2.不同点：absolute相对是第一个有定位的祖元素进行定位，fixed相对于浏览器进行定位。
+在有滚动条的页面中，absolute会跟着祖元素进行移动，fixed固定在页面的具体位置。
+
+JavaScript 中 null 和 undefined 的区别？
+null和undefined很相似undefined  == null //返回true
+你没有定义或者var完它又不给它赋值js将会将其设为undefined,但是你必须var一个值赋值等于null它才是null
+typeof undefined 返回undefined 
+typeof null返回object 
+所以undefined  === null  //false
+
+
+
+
+对盒模型的理解
+盒子模型有两种，W3C和IE盒子模型
+W3C定义的盒子模型包括margin、border、padding、content ，元素的width=content的宽度
+IE盒子模型与W3C的盒子模型唯一区别就是元素的宽度，元素的width=content+padding+border
+W3C定义盒子模型与IE定义的盒子模型，IE定义的比较合理，元素的宽度应该包含border（边框）和padding（填充），这个和我们现实生活的盒子是一样的，W3C也认识到自己的问题了，所以在CSS3中新增了一个样式box-sizing，包含两个属性content-box 和 border-box。
+
+content-box  元素的width=content+padding+border
+.test1{  
+    box-sizing:content-box;  
+    width:200px;  
+    padding:10px;  
+    border:15px solid #eee;  
+}  
+
+border-box   元素的width=width（用样式指定的宽度）
+.test1{  
+    box-sizing:border-box;  
+    width:200px;  
+    padding:10px;  
+    border:15px solid #eee;  
+}  
+
+JS中String()与new String()的差异浅析
+var yiifaa = 'yiifaa',
+    str1 = new String(yiifaa),
+    str2 = String(yiifaa)
+//  请确认以下的判断是否准确
+str1 === yiifaa
+//
+str2 === yiifaa
+//
+typeof str1 === typeof str2
+根据JS的语法，要满足===的条件如下： 
+1. 如果是引用类型，则两个变量必须指向同一个对象（同一个地址） 
+2. 如果是基本类型，则两个变量除了类型必须相同外，值还必须相等
+//  类型为string，为基本类型
+typeof yiifaa
+//  类型为object，为引用类型
+typeof str1
+//  类型为string，为基本类型
+typeof str2
+
+str1 === yiifaa     //  false， 因为str1为引用类型
+str2 === yiifaa     //  true， 因为都是基本类型，并且值相等
+typeof str1 === typeof str2  // false，虽然都是字符串，但分别为object与string
+String str1 = new String("ABC");
+String str2 = new String("ABC");
+str1 == str2的值是false  //使用new构造器创建字符串对象一定会开辟一个新的heap空间,至少创建一个对象，也可能两个。
+
+浏览器点击URL的响应过程
+1. 首先嘛，你得在浏览器里输入要网址
+2. 浏览器查找域名的IP地址
+3. 浏览器给web服务器发送一个HTTP请求
+4. 服务器给浏览器永久重定向响应
+5. 浏览器跟踪重定向地址
+6. 服务器“处理”请求
+7. 服务器发回一个HTML响应
+8. 浏览器开始显示HTML
+9. 浏览器发送获取嵌入在HTML中的对象
+10. 浏览器发送异步（AJAX）请求
+
+css中单位px和em,rem的区别
+1.px像素（Pixel）。相对长度单位。像素px是相对于显示器屏幕分辨率而言的。
+2.em是相对长度单位。相对于当前对象内文本的字体尺寸。如当前对行内文本的字体尺寸未被人为设置，则相对于浏览器的默认字体尺寸。
+3.使用rem为元素设定字体大小时，仍然是相对大小，但相对的只是HTML根元素。
+
+多行文字垂直居中
+<style>  
+    *{padding: 0;margin:0;font-size: 12px;}  
+    div{float: left;width: 200px;height:200px;margin: 10px;border:1px solid blue; line-height: 200px;}  
+    span{display: inline-block;vertical-align: middle;line-height: 22px;}  
+</style>  
+  
+<div>  
+    <span>测试文字测试文字</span>  
+</div>  
+<div>  
+    <span>测试文字 <br/> 测试文字<br/> 测试文字<br/> 测试文字<br/> 测试文字<br/> 测试文字</span>  
+</div>  
+关键样式：
+
+① 父元素（这里是div）设置和高度一致的 line-height （这里是200px）--- 由后面的vertical-align定义看，这是为了设置div的基线
+
+② 子元素 (这里是span) 设置合适的line-height，并设置display:inline-block、vertical-align: middle;  --- inline水平的元素无法设置line-height。所以这里要设置inline-block。
+
+连接池的作用：连接池是将已经创建好的连接保存在池中，当有请求来时，直接使用已经创建好的连接对数据库进行访问。这样省略了创建连接和销毁连接的过程。这样性能上得到了提高。
+
+es6引用模块import后面加上花括号{}和不加花括号的区别
+import不使用花括号 
+不使用{}来引用模块的情况下，import模块时的命名是随意的
+import使用花括号{}
+只有在模块A.js中有命名导出为A的export name的代码
+
+一般可以在created函数中调用ajax获取页面初始化所需的数据。
+computed：计算属性将被混入到 Vue 实例中。所有 getter 和 setter 的 this 上下文自动地绑定为 Vue 实例。
+
+export default 和 export 区别
+1.在一个文件或模块中，export、import可以有多个，export default仅有一个
+2.通过export方式导出，在导入时要加{ }，export default则不需要
+
+块级元素和内联元素的区别：
+1.块元素，总是在新行上开始；内联元素，和其他元素在一行；
+2.块元素，能容纳其他块元素或者内联元素；内联元素，只能容纳文本或其他内联元素；
+3.块元素中高度，行高以及顶和底边距都可以控制；内联元素中高，行高及顶和底边距不可改变。
+
+call、apply、bind
+当我们使用一个函数需要改变this指向的时候才会用到call`apply`bind
+如果你要传递的参数不多，则可以使用fn.call(thisObj, arg1, arg2 ...)
+如果你要传递的参数很多，则可以用数组将参数整理好调用fn.apply(thisObj, [arg1, arg2 ...])
+如果你想生成一个新的函数长期绑定某个函数给某个对象使用，则可以使用const newFn = fn.bind(thisObj); newFn(arg1, arg2...)。
+bind方法，他是直接改变这个函数的this指向并且返回一个新的函数，之后再次调用这个函数的时候this都是指向bind绑定的第一个参数。bind传参方式跟call方法一致。
